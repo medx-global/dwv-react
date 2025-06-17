@@ -12,8 +12,36 @@ dwv-react is not certified for diagnostic use. Released under GNU GPL-3.0 licens
 
  - `install`: install dependencies
  - `start`: serve with hot reload at localhost:3000
+ - `start:dicom`: serve with hot reload at localhost:3000/dicom
  - `test`: run unit tests
  - `build`: build for production
+ - `build-dicom`: build for production with `/dicom` base path
+
+## Docker Deployment
+
+To build and run the application with Docker on the `/dicom` path:
+
+```sh
+# Build the Docker image
+docker build -t dwv-react .
+
+# Run the container
+docker run -p 80:80 dwv-react
+```
+
+The application will be available at `http://localhost/dicom`.
+
+## Custom Path Deployment
+
+The application supports deployment on custom paths. Use the `PUBLIC_URL` environment variable:
+
+```sh
+# For development
+PUBLIC_URL=/your-path npm start
+
+# For production build
+PUBLIC_URL=/your-path npm run build
+```
 
 Unit tests use [Jest](https://facebook.github.io/jest/).
 

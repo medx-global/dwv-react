@@ -1,5 +1,6 @@
-# Use Node.js 22 with Ubuntu base for better compatibility with native packages
-FROM node:22
+# Multi-stage build for production
+# Stage 1: Build the application
+FROM node:22 as build
 
 # Set working directory
 WORKDIR /app
@@ -24,13 +25,23 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-
-
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port that Vite dev server runs on
-EXPOSE 3000
+# Build the application for production with /dicom path
+RUN npm run build-dicom
 
-# Start the development server
-CMD ["npm", "run", "start", "--", "--host", "0.0.0.0"]
+# Stage 2: Serve the application with nginx
+FROM nginx:alpine
+
+# Copy the built application from the build stage
+COPY --from=build /app/build /usr/share/nginx/html/dicom
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

@@ -21,7 +21,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:dicom": "PUBLIC_URL=/dicom react-scripts start",
     "build": "react-scripts build",
+    "build-dicom": "PUBLIC_URL=/dicom react-scripts build",
     "build-trunk": "PUBLIC_URL=/dwv-react/demo/trunk/ react-scripts build",
     "build-stable": "PUBLIC_URL=/dwv-react/demo/stable/ react-scripts build",
     "test": "react-scripts test --env=jsdom"
